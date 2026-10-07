@@ -1,3 +1,33 @@
+# workflows:
+#   ios-release:
+#     name: GCCI iOS Release
+#     instance_type: mac_mini_m2
+
+#     environment:
+#       flutter: 3.32.6
+#       xcode: 26.0
+#       cocoapods: default
+
+#       ios_signing:
+#         distribution_type: app_store
+#         bundle_identifier: com.gcci
+
+#     scripts:
+#       - name: Get Flutter packages
+#         script: |
+#           flutter pub get
+
+#       - name: Set up code signing
+#         script: |
+#           xcode-project use-profiles
+
+#       - name: Build iOS IPA
+#         script: |
+#           flutter build ipa --release
+
+#     artifacts:
+#       - build/ios/ipa/*.ipa
+#       - /tmp/xcodebuild_logs/*.log
 workflows:
   ios-release:
     name: GCCI iOS Release
@@ -24,6 +54,17 @@ workflows:
       - name: Build iOS IPA
         script: |
           flutter build ipa --release
+
+      - name: Check generated IPA
+        script: |
+          echo "===== Current directory ====="
+          pwd
+
+          echo "===== IPA files ====="
+          find build/ios/ipa -type f -name "*.ipa" -print || true
+
+          echo "===== IPA directory ====="
+          ls -lah build/ios/ipa || true
 
     artifacts:
       - build/ios/ipa/*.ipa
