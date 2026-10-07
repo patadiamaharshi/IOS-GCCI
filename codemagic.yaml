@@ -8,10 +8,18 @@ workflows:
       xcode: 26.0
       cocoapods: default
 
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.gcci
+
     scripts:
       - name: Get Flutter packages
         script: |
           flutter pub get
+
+      - name: Set up code signing
+        script: |
+          xcode-project use-profiles
 
       - name: Build iOS IPA
         script: |
